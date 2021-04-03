@@ -27,7 +27,7 @@ SECRET_KEY = '6fnuta(y9fur&x_&*_0hg6n-=9gfw_8(nmm2a)j_f1dq)wd4_s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -39,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',  # 跨域
+
     'rest_framework',  # DRF
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # 跨域中间件
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -170,3 +173,12 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'dada_mall.utils.exceptions.exception_handler',
 
 }
+
+# CORS 追加⽩名单
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+    'http://www.dada.site:8080',
+    'http://api.dada.site:8000',
+)
+CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
