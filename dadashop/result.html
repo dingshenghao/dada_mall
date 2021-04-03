@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>达达商城支付结果页面</title>
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link href="./static/css/animate.css" rel="Stylesheet" />
+  <link href="./static/css/login.css" rel="stylesheet" />
+  <link rel="icon" href="./static/images/index/py.ico">
+  <script src="./static/js/init.js"></script>
+</head>
+
+<body>
+  <script src="./static/js/jquery-3.1.1.min.js"></script>
+  <script>
+    var url_params = location.search
+
+    $.ajax({
+      // url: "http://127.0.0.1:8000/v1/payment/result/",
+      url: baseUrl + "/v1/payment/result/" + url_params,
+      type: "get",
+      contentType: "application/json",
+      dataType: "json",
+
+      success: function (data) {
+        if (data.code == 200) {
+          alert(data.result);
+          window.location.href = "index.html";
+        } else {
+          console.log(data.result)
+        }
+      }
+    })
+
+
+  </script>
+</body>
+
+</html>
