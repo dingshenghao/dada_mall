@@ -23,3 +23,32 @@ class UserRegisterView(APIView):
         serializer.save()
         return Response({'code': 200, 'username': username, 'data': {'token': token}, 'carts_count': 0})
 
+
+class CheckUsername(APIView):
+    """
+    校验用户名
+    """
+
+    def get(self, request, username):
+        count = User.objects.filter(username=username).count()
+        return Response({'code': 200, 'data': {'count': count}})
+
+
+class CheckEmail(APIView):
+    """
+    校验邮箱
+    """
+
+    def get(self, request, email):
+        count = User.objects.filter(email=email).count()
+        return Response({'code': 200, 'data': {'count': count}})
+
+
+class CheckPhone(APIView):
+    """
+    校验手机号
+    """
+
+    def get(self, request, phone):
+        count = User.objects.filter(phone=phone).count()
+        return Response({'code': 200, 'data': {'count': count}})

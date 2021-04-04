@@ -11,10 +11,9 @@ from .utils import token_confirm
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'phone']
+        fields = ['id', 'username', 'password', 'phone', 'email']
         extra_kwargs = {
             'username': {
                 'min_length': 6,
@@ -45,10 +44,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validate_date):
-        # print(validate_date)
         password = validate_date.pop('password')
         user = User(**validate_date)
         user.set_password(password)
         user.save()
         return user
-

@@ -18,4 +18,7 @@ from . import views
 
 urlpatterns = [
     path('register/', views.UserRegisterView.as_view()),
+    path('username/<username>/', views.CheckUsername.as_view()),
+    path('email/<email>/', views.CheckEmail.as_view()),
+    path('mobile/<phone>/', views.CheckPhone.as_view()),
 ]
