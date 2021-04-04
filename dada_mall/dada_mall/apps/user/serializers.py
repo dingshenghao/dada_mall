@@ -49,3 +49,28 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+
+class LoginSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'password']
+        extra_kwargs = {
+            'username': {
+                'min_length': 6,
+                'max_length': 11,
+                'error_messages': {
+                    'min_length': '用户名长度在6到11位之间',
+                    'max_length': '用户名长度在6到11位之间'
+                }
+            },
+            'password': {
+                'min_length': 6,
+                'max_length': 12,
+                'error_messages': {
+                    'min_length': '密码长度在6到12位之间',
+                    'max_length': '密码长度在6到12位之间'
+                }
+            }
+        }

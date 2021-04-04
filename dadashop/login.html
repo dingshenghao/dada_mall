@@ -101,7 +101,7 @@
             if (username != '' && password != '') {
                 $.ajax({
                     type: 'POST',
-                    url: baseUrl + '/v1/tokens',
+                    url: baseUrl + '/login/',
                     // url: 'http://127.0.0.1:8000/test_cors',
                     contentType: 'application/json',
                     data: JSON.stringify(inputData),

@@ -21,4 +21,6 @@ urlpatterns = [
     path('username/<username>/', views.CheckUsername.as_view()),
     path('email/<email>/', views.CheckEmail.as_view()),
     path('mobile/<phone>/', views.CheckPhone.as_view()),
+
+    path('login/', views.UserLoginView.as_view()),
 ]
