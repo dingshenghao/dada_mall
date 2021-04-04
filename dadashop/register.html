@@ -139,11 +139,11 @@
       if(!checkUname()&&!checkPWD()&&checkEmail()&&checkPhone()){
           $.ajax({
         type: "post",
-        url: baseUrl+"/v1/users",
+        url: baseUrl+"/register/",
         contentType:'application/json',
         datatype: "json",
         data: JSON.stringify({
-          "uname": $('#uname').val(),
+          "username": $('#uname').val(),
           "password": $('#upwd').val(),
           "phone": $('#phone').val(),
           "email": $('#email').val(),
@@ -157,7 +157,7 @@
 		        window.localStorage.setItem('dashop_user', data.username);
 		        window.localStorage.setItem('dashop_count', data.carts_count);
                 alert('注册成功！');
-                window.location.href = '/dadashop/templates/index.html';
+                window.location.href = qianduan + '/index.html';
             }else {
                 alert(data.error);
             }
