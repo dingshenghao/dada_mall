@@ -66,7 +66,7 @@
 			</dl>
 			<dl class="count_managment">
 				<dt onClick="changeImage()">帐号管理<img src="./static/images/myOrder/myOrder1.png"></dt>
-				<!-- <dd class="first_dd"><a href="personage.html">我的信息</a></dd>-->
+<!--				 <dd class="first_dd"><a href="personage.html">我的信息</a></dd>-->
 				<!-- <dd><a href="personal_icon.html">个人头像</a></dd> -->
 				<dd><a href="personal_password.html">安全管理</a></dd>
 			</dl>
@@ -156,7 +156,7 @@
 	//加载用户列表：
 	function loadUserList(){
 		$.ajax({
-			url:baseUrl+'/v1/users/'+username+'/address',
+			url:baseUrl+'/users/'+username+'/address',
 			type:'get',
 			beforeSend:function(request){
 				request.setRequestHeader("authorization",localStorage.getItem('dashop_token'))
@@ -220,7 +220,7 @@
 		// var username=sessionStorage.getItem("username");
 		$.ajax({
 			type:'delete',
-			url:baseUrl+'/v1/users/'+username+'/address/'+id,
+			url:baseUrl+'/users/'+username+'/address/'+id + '/',
 			data:JSON.stringify({username,id}),
 			contentType:'application/json',
 			datatype:JSON,
@@ -238,8 +238,8 @@
 				}
 				if(data.code==200){
 					//重现渲染用户列表数据
-					alert(data.data)
-					loadUserList()
+					alert(data.msg);
+					loadUserList();
 				}else{
 					//否则就是操作有误
 					alert(data.error);
@@ -284,7 +284,7 @@
 			}else{
 				$.ajax({
 					type:'put',
-					url:baseUrl+'/v1/users/'+username+'/address/'+addressId,
+					url:baseUrl+'/users/'+username+'/address/'+addressId + '/',
 					contentType:'application/json',
 					data:JSON.stringify({address:arr[0],receiver:arr[1],tag:arr[2],receiver_mobile:arr[3],id:id}),
 					beforeSend:function(request){
@@ -299,7 +299,7 @@
 							location.href = 'login.html'
 						}
 						if(data.code==200){
-							alert(data.data)
+							alert(data.msg);
 							$("div.modal").css({display:'none'});
 							loadUserList();
 						}else{
@@ -314,7 +314,7 @@
     function setDefaults(id){
 		$.ajax({
 			type:'post',
-			url:baseUrl+'/v1/users/'+username+'/address/default',
+			url:baseUrl+'/users/'+username+'/address/default',
 			contentType:'application/json',
 			dataType:'json',
 			data:JSON.stringify({"id":id,}),

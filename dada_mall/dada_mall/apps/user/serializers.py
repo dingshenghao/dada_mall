@@ -6,8 +6,7 @@ import re
 
 from rest_framework import serializers
 
-from .models import User
-from .utils import token_confirm
+from .models import User, Address
 from celery_tasks.email.tasks import send_email
 
 
@@ -77,3 +76,33 @@ class LoginSerializer(serializers.ModelSerializer):
                 }
             }
         }
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ['id', 'user_id', 'name', 'phone', 'address', 'postcode', 'tag']
+        extra_kwargs = {
+            'id': {'read_only': True, }
+        }
+
+    def validate_phone(self, value):
+        if not re.match(r'^1[3456789]\d{9}$', value):
+            raise serializers.ValidationError('请输入合法的手机号')
+        return value
+
+    def create(self, validated_data):
+        address = Address(**validated_data)
+        address.save()
+        return address
+
+    # def update(self, instance, validated_data):
+    #     print(instance)
+    #     print('---------------')
+    #     instance.phone = validated_data.get('phone', instance.phone)
+    #     instance.name = validated_data.get('name', instance.name)
+    #     instance.address = validated_data.get('address', instance.address)
+    #     instance.tag = validated_data.get('tag', instance.tag)
+    #     instance.save()
+    #     return instance
+

@@ -7,9 +7,10 @@ from itsdangerous import TimedJSONWebSignatureSerializer as TJWSerializer, BadDa
 class User(AbstractUser):
     phone = models.CharField(max_length=11, unique=True, null=False)
     email_active = models.BooleanField(default=False, verbose_name='邮箱验证状态')
+    address_id = models.IntegerField(verbose_name='默认地址id', null=True)
 
     class Meat:
-        db_name = 'user'
+        db_table = 'user'
         verbose_name = '用户'
         verbose_name_plural = verbose_name
 
@@ -47,4 +48,19 @@ class User(AbstractUser):
             else:
                 return user
 
+
+class Address(models.Model):
+    user_id = models.IntegerField(null=False, verbose_name='用户id')
+    name = models.CharField(null=False, verbose_name='收货人', max_length=10)
+    address = models.CharField(null=False, verbose_name='地址', max_length=128)
+    postcode = models.CharField(verbose_name="邮编", max_length=6)
+    phone = models.CharField(verbose_name='手机号', max_length=11)
+    tag = models.CharField(verbose_name="标签", max_length=10)
+    is_active = models.BooleanField(verbose_name="是否活跃", default=True)
+    is_default = models.BooleanField(verbose_name="是否默认地址", default=False)
+
+    class Meta:
+        db_table = 'address'
+        verbose_name = '收获地址'
+        verbose_name_plural = verbose_name
 

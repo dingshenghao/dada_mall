@@ -50,7 +50,7 @@ $(".save_recipient").click(function () {
 			beforeSend:function(request){
 				request.setRequestHeader("authorization",token)
 			},
-			url: baseUrl+'/v1/users/'+username+'/address',
+			url: baseUrl+'/users/'+username+'/address/',
 			contentType:'application/json',
 			datatype: JSON,
 			data: JSON.stringify({"receiver": receiverName,"address": receiverState + receiverCity + receiverDistrict + receiverAddress,"receiver_phone": receiverMobile,"postcode": receiverZip,"tag": addressName}),
@@ -64,7 +64,7 @@ $(".save_recipient").click(function () {
 							location.href = 'login.html'
 						}
 				if (response.code==200) {
-					alert(response.data)
+					alert(response.msg);
 					loadUserList()
 					$('#receiverName').val('')
 					$('#receiverAddress').val('')

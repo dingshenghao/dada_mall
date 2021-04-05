@@ -25,4 +25,7 @@ urlpatterns = [
 
     path('login/', views.UserLoginView.as_view()),
 
+    path('users/<username>/address/', views.UserAddressView.as_view()),
+    path('users/<username>/address/<int:id>/', views.DeleteAddressView.as_view()),
+
 ]
