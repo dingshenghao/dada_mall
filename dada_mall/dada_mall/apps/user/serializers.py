@@ -8,6 +8,7 @@ from rest_framework import serializers
 
 from .models import User
 from .utils import token_confirm
+from celery_tasks.email.tasks import send_email
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -48,11 +49,13 @@ class RegisterSerializer(serializers.ModelSerializer):
         user = User(**validate_date)
         user.set_password(password)
         user.save()
+        # celery异步发送验证邮箱
+        verify_url = user.generate_email_verify_url()
+        send_email.delay(user.email, verify_url)
         return user
 
 
 class LoginSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = ['id', 'username', 'password']

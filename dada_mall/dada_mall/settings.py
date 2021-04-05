@@ -185,3 +185,19 @@ CORS_ORIGIN_WHITELIST = (
     'http://api.dada.site:8000',
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
+
+
+# 发送邮件
+# smtp服务的邮箱服务器
+EMAIL_HOST = 'smtp.qq.com'
+# smtp服务固定的端⼝是25
+# EMAIL_PORT = 25
+# 发送邮件的邮箱
+EMAIL_HOST_USER = '908953210@qq.com'
+# 在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = 'elhxbpakvaiobceg'
+# 收件⼈看到的发件⼈ <此处要和发送邮件的邮箱相同>
+EMAIL_FROM = 'python<908953210@qq.com>'
+
+#  邮箱验证链接（开发环境）
+EMAIL_VERIFY_URL = 'http://www.dada.site:8080/success_verify_email.html'
