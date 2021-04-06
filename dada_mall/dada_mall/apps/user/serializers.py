@@ -97,8 +97,6 @@ class AddressSerializer(serializers.ModelSerializer):
         return address
 
     # def update(self, instance, validated_data):
-    #     print(instance)
-    #     print('---------------')
     #     instance.phone = validated_data.get('phone', instance.phone)
     #     instance.name = validated_data.get('name', instance.name)
     #     instance.address = validated_data.get('address', instance.address)

@@ -100,6 +100,10 @@ class EmailVerify(APIView):
 
 
 class UserAddressView(APIView):
+    """
+    get: 查询地址
+    post：新增地址
+    """
 
     def get(self, request, username):
         try:
@@ -139,6 +143,10 @@ class UserAddressView(APIView):
 
 
 class DeleteAddressView(APIView):
+    """
+    delete: 删除地址
+    put： 修改地址
+    """
 
     def delete(self, request, id, username):
         try:
@@ -173,3 +181,28 @@ class DeleteAddressView(APIView):
         return Response({'code': 200, 'msg': '修改成功！'})
 
 
+class DefaultAddressView(APIView):
+    """
+    post: 设置默认地址
+    """
+
+    def post(self, request, username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({'code': 400, 'error': '设置失败！'})
+        query_dict = request.data
+        address_id = query_dict['id']
+        try:
+            address = Address.objects.get(user_id=user.id, id=address_id, is_active=True)
+        except Address.DoesNotExist:
+            return Response({'code': 400, 'error': '设置失败!'})
+        user.address_id = address_id
+        address.is_default = True
+        default_addresses = Address.objects.filter(user_id=user.id, is_active=True, is_default=True)
+        for default_address in default_addresses:
+            default_address.is_default = False
+            default_address.save()
+        user.save()
+        address.save()
+        return Response({'code': 200, 'msg': '设置成功！'})

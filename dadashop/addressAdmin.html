@@ -314,7 +314,7 @@
     function setDefaults(id){
 		$.ajax({
 			type:'post',
-			url:baseUrl+'/users/'+username+'/address/default',
+			url:baseUrl+'/users/'+username+'/address/default/',
 			contentType:'application/json',
 			dataType:'json',
 			data:JSON.stringify({"id":id,}),
@@ -330,10 +330,10 @@
 					location.href = 'login.html'
 				}
 				if(data.code==200){
-					alert(data.data)
+					alert(data.msg);
 					loadUserList()
 				}else{
-					alert(data.error)
+					alert(data.error);
 				}
 			}
 		})
