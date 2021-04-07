@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'rest_framework',  # DRF
     'user.apps.UserConfig',
+    'goods.apps.GoodsConfig',
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,9 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# 图片的访问地址前缀
 STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 AUTH_USER_MODEL = 'user.User'
 
