@@ -11,17 +11,17 @@ $(function () {
     var $btn = $("#btn")
     var $btn2 = $("#btn2")
     var $btn3 = $("#btn3")
-    var username =  window.localStorage.getItem('dashop_user')
+    var username = window.localStorage.getItem('dashop_user')
     $btn.on("click", function () {
         if ($email.val() != "") {
             //发送数据
             $.ajax({
-                url: baseUrl+'/v1/users/password/sms',
+                url: baseUrl + '/users/password/sms/',
                 type: 'POST',
                 data: JSON.stringify({
                     "email": $email.val()
                 }),
-                contentType:'application/json',
+                contentType: 'application/json',
                 dataType: "json",
                 success: function (d) {
                     console.log(d)
@@ -29,8 +29,8 @@ $(function () {
                         $pitem2.show();
                         $btn.hide();
                         $btn2.show();
-                    }else{
-                      alert(d.error)
+                    } else {
+                        alert(d.error)
                     }
                 }
             })
@@ -45,9 +45,9 @@ $(function () {
                     "email": $email.val(),
                     "code": $code.val()
                 }),
-                url: baseUrl+'/v1/users/password/verification',
+                url: baseUrl + '/users/password/verification/',
                 dataType: "json",
-                contentType:'application/json',
+                contentType: 'application/json',
                 success: function (d) {
                     if (d.code == 200) {
                         $pitem.hide();
@@ -56,8 +56,11 @@ $(function () {
                         $pitem4.show();
                         $btn2.hide();
                         $btn3.show();
-                    }else{
-                      alert(d.error)
+                    } else {
+                        alert(d.error);
+                        $pitem2.hide();
+                        $btn.show();
+                        $btn2.hide();
                     }
                 }
             })
@@ -73,16 +76,16 @@ $(function () {
                     "password2": $repass.val(),
                     "email": $email.val()
                 }),
-                url: baseUrl+'/v1/users/password/new',
-                contentType:'application/json',
+                url: baseUrl + '/users/password/new/',
+                contentType: 'application/json',
                 dataType: "json",
                 success: function (d) {
                     if (d.code == 200) {
-                        alert('密码修改成功')    
-                        //window.location.href='login.html'
-                        window.location.href='index.html'
-                    }else{
-                      alert(d.error)
+                        alert('密码修改成功')
+                        window.location.href='login.html'
+                        // window.location.href = 'index.html'
+                    } else {
+                        alert(d.error)
                     }
                 }
             })

@@ -23,3 +23,19 @@ def send_email(to_email, verify_url):
                    '<p><a href="%s">%s<a></p>' % (to_email, verify_url, verify_url)
     # send_mail(subject：标题，message：普通文本内容，发件人，收件人（可以是列表），html_message：超文本邮箱内容)
     send_mail(subject, '', settings.EMAIL_FROM, [to_email], html_message=html_message)
+
+
+@celery_app.task(name='send_sms_email')
+def send_sms_email(to_email, sms_code):
+    """
+    找回密码发送邮箱
+    :param to_email: 收件人邮箱
+    :param verify_url: 验证链接
+    :return:
+    """
+    subject = "达达商城邮箱验证"
+    html_message = '<p>尊敬的⽤户您好！</p>' \
+                   '<p>感谢您使⽤达达商城。</p>' \
+                   '<p>您的验证码为&nbsp;&nbsp;%s</p>' % sms_code
+    # send_mail(subject：标题，message：普通文本内容，发件人，收件人（可以是列表），html_message：超文本邮箱内容)
+    send_mail(subject, '', settings.EMAIL_FROM, [to_email], html_message=html_message)

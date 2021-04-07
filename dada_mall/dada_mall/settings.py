@@ -201,3 +201,30 @@ EMAIL_FROM = 'python<908953210@qq.com>'
 
 #  邮箱验证链接（开发环境）
 EMAIL_VERIFY_URL = 'http://www.dada.site:8080/success_verify_email.html'
+
+# 配置redis
+CACHES = {
+    "default": {  # 缓存省市区
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.73.128:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "session": {  # 缓存session
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.73.128:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+    "sms_code": {  # 缓存验证码
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.73.128:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    },
+}
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "session"

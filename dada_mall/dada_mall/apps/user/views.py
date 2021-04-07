@@ -1,5 +1,6 @@
 import json
 import logging
+import random
 
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework import status
@@ -7,12 +8,14 @@ from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, GenericAPIView, UpdateAPIView
 from rest_framework.response import Response
 from django.conf import settings
+from django_redis import get_redis_connection
 
 from .models import User, Address
 from .serializers import RegisterSerializer, LoginSerializer, AddressSerializer
 from .utils import token_confirm
+from celery_tasks.email.tasks import send_sms_email
 
-logger = logging.getLogger('info')
+logger = logging.getLogger('django')
 
 
 class UserRegisterView(APIView):
@@ -206,3 +209,84 @@ class DefaultAddressView(APIView):
         user.save()
         address.save()
         return Response({'code': 200, 'msg': '设置成功！'})
+
+
+class ChangePasswordView(APIView):
+    """
+    post: 修改密码
+    """
+
+    def post(self, request, username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({'code': 400, 'error': '修改失败！'})
+        query_dict = json.loads(request.body.decode())
+        if query_dict['password1'] != query_dict['password2']:
+            return Response({'code': 400, 'error': '两次密码不一致！'})
+        if not check_password(query_dict['oldpassword'], user.password):
+            return Response({'code': 400, 'error': '原密码错误!'})
+        user.password = make_password(query_dict['password1'])
+        user.save()
+        return Response({'code': 200, 'msg': '修改成功！'})
+
+
+class FindPaswordView(APIView):
+    """
+    post: 发送邮件验证码
+    """
+
+    def post(self, request):
+        email = request.data['email']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'code': 400, 'error': '邮箱不存在！'})
+        sms_code = '%06d' % random.randint(0, 999999)
+        print(sms_code)
+        logger.info(sms_code)
+        redis_coon = get_redis_connection('sms_code')
+        send_sms_email.delay(email, sms_code)
+        redis_coon.setex(email, 300, sms_code)  # 设置过期时间为5分钟
+        return Response({'code': 200})
+
+
+class VerifyPasswordView(APIView):
+    """
+    post: 认证验证码
+    """
+
+    def post(self, request):
+        code = request.data['code']
+        email = request.data['email']
+        if not all([code, email]):
+            return Response({'code': 400, 'error': '数据不能为空！'})
+        redis_coon = get_redis_connection('sms_code')
+        redis_sms_code = redis_coon.get(email)
+        if redis_sms_code is None:
+            return Response({'code': 400, 'error': '验证码已失效，请重新发送！'})
+        if redis_sms_code.decode() == code:
+            return Response({'code': 200})
+
+
+class NewPasswordView(APIView):
+    """
+    post: 修改密码
+    """
+
+    def post(self, request):
+        query_dict = request.data
+        email = query_dict['email']
+        password1 = query_dict['password1']
+        password2 = query_dict['password2']
+        if not all([email, password2, password1]):
+            return Response({'code': 400, 'error': '数据不能为空'})
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'code': 400, 'error': '修改失败!'})
+        if password1 != password2:
+            return Response({'code': 400, 'error': '两次密码不一致！'})
+        user.password = make_password(password1)
+        user.save()
+        return Response({'code': 200})

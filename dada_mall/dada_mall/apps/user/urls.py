@@ -28,5 +28,9 @@ urlpatterns = [
     path('users/<username>/address/', views.UserAddressView.as_view()),
     path('users/<username>/address/<int:id>/', views.DeleteAddressView.as_view()),
     path('users/<username>/address/default/', views.DefaultAddressView.as_view()),
+    path('users/<username>/password/', views.ChangePasswordView.as_view()),
+    path('users/password/sms/', views.FindPaswordView.as_view()),
+    path('users/password/verification/', views.VerifyPasswordView.as_view()),
+    path('users/password/new/', views.NewPasswordView.as_view()),
 
 ]
