@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',  # DRF
     'user.apps.UserConfig',
     'goods.apps.GoodsConfig',
+    'carts.apps.CartsConfig',
 ]
 
 MIDDLEWARE = [
@@ -209,7 +210,7 @@ EMAIL_VERIFY_URL = 'http://www.dada.site:8080/success_verify_email.html'
 
 # 配置redis
 CACHES = {
-    "default": {  # 缓存省市区
+    "default": {  # 购物车数据
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://192.168.73.128:6379/0",
         "OPTIONS": {

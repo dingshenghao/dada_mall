@@ -88,7 +88,7 @@ function main(data,base_url) {
                     var username = window.localStorage.dashop_user;
                     if (username){
                         $.ajax({
-                        url: BASE_URL+'/v1/carts/' + username,
+                        url: BASE_URL+'/carts/' + username + '/',
                         type: "DELETE",
                         beforeSend:function (request) {
                  request.setRequestHeader('authorization',window.localStorage.getItem('dashop_token'))
@@ -177,7 +177,7 @@ function main(data,base_url) {
             var sku_id = $(this).parent().parent().children('.check').children('.Each').children().val()
             if(username){
                  $.ajax({
-                url : BASE_URL+'/v1/carts/'+username,
+                url : BASE_URL+'/carts/'+username + '/',
                 type : "PUT",
                 beforeSend:function (request) {
                     request.setRequestHeader('authorization',window.localStorage.getItem('dashop_token'))},
@@ -242,14 +242,14 @@ function main(data,base_url) {
             })
             if(username){
                 $.ajax({
-                url :  BASE_URL+'/v1/carts/'+username,
+                url :  BASE_URL+'/carts/'+username + '/',
                 type : "PUT",
                 contentType:'application/json',
                 dataType: "json",
                 beforeSend:function (request) {
                  request.setRequestHeader('authorization',window.localStorage.getItem('dashop_token'))
              },
-                data :JSON.stringify({'sku_id':sku_id,'state':'add'}) ,
+                data :JSON.stringify({'sku_id':sku_id,'state':'add', 'count': _v2}) ,
                 success : function(result) {
                     console.log(result)
                     if(result.code == 403){
@@ -324,7 +324,7 @@ function main(data,base_url) {
             }
             if(username){
                 $.ajax({
-                url :  BASE_URL+'/v1/carts/'+username,
+                url :  BASE_URL+'/carts/'+username + '/',
                 type : "PUT",
                 contentType:'application/json',
                 dataType: "json",
@@ -364,7 +364,7 @@ function main(data,base_url) {
             }           
             if(username){
                 $.ajax({
-                url :  BASE_URL+'/v1/carts/'+username,
+                url :  BASE_URL+'/carts/'+username + '/',
                 type : "PUT",
                 contentType:'application/json',
                 dataType: "json",
@@ -431,7 +431,7 @@ function main(data,base_url) {
         cart.data.sumPrice();
         if(username){
             $.ajax({
-            url : BASE_URL+'/v1/carts/'+username,
+            url : BASE_URL+'/carts/'+username + '/',
             type : "PUT",
             contentType: 'application/json',
             dataType: "json",
@@ -459,7 +459,7 @@ function main(data,base_url) {
         $(".totalOne,.total").html(0);
         if(username){
             $.ajax({
-            url : BASE_URL+'/v1/carts/'+username,
+            url : BASE_URL+'/carts/'+username + '/',
             type : "PUT",
             dataType: "json",
             beforeSend:function (request) {
@@ -492,7 +492,7 @@ $(function () {
      if (username) {
          $.ajax({
              type: "get",
-             url: BASE_URL+'/v1/carts/'+username,
+             url: BASE_URL+'/carts/'+username + '/',
              datatype: JSON,
              beforeSend:function (request) {
                  request.setRequestHeader('authorization',window.localStorage.getItem('dashop_token'))

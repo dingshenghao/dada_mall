@@ -74,3 +74,10 @@ class GoodsDetailView(APIView):
             'sku_all_sale_attr_vals_name': sku_all_sale_attr_vals_name
         }
         return Response({'code': 200, 'data': data, 'base_url': settings.PIC_URL})
+
+
+class GoodsSkuView(APIView):
+
+    def post(self, request):
+        # print(request.data)
+        return Response({'code': 200, 'data': ''})

@@ -17,7 +17,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('goods/index/', views.GoodsIndexView.as_view()),
-    path('goods/detail/<int:id>/', views.GoodsDetailView.as_view()),
-    path('goods/sku/', views.GoodsSkuView.as_view()),
+    path('carts/<username>/', views.CartsView.as_view())
 ]
