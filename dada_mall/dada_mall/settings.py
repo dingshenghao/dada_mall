@@ -129,6 +129,8 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
+PIC_URL = "http://127.0.0.1:8000" + STATIC_URL
+
 AUTH_USER_MODEL = 'user.User'
 
 # 配置日志

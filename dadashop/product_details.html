@@ -40,7 +40,7 @@
             <!-- <h3></h3>-->
             <!-- 价格部分-->
             <div class="price">
-                <div id="pro_price"><b>皮粉售价：</b><span>¥299</span></div>
+                <div id="pro_price"><b>售价：</b><span>¥299</span></div>
                 <div class="promise">
                     <b>服务承诺：</b>
                     <span>*退货补运费</span>
@@ -273,7 +273,7 @@
 
         $.ajax({
                 type: 'get',
-                url: baseUrl+'/v1/goods/detail/'+skuid,
+                url: baseUrl+'/goods/detail/'+skuid + '/',
                 success: function (result) {
                     var IMG_URL = result.base_url
                     $('#nav_detail').html(
