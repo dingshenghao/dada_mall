@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django_redis import get_redis_connection
 
+from dada_mall.utils.login_check import login_check
 from goods.models import SKU, SPUSaleAttr
 from user.models import User
 
@@ -17,6 +18,7 @@ class CartsView(APIView):
     put: 修改购物车数据
     """
 
+    @login_check
     def get(self, request, username):
         try:
             user = User.objects.get(username=username)
@@ -48,6 +50,7 @@ class CartsView(APIView):
             carts.append(cart)
         return Response({'code': 200, 'data': carts, 'base_url': settings.PIC_URL})
 
+    @login_check
     def post(self, request, username):
         sku_id = request.data['sku_id']
         count = request.data['count']
@@ -71,6 +74,7 @@ class CartsView(APIView):
         pl.execute()
         return Response({'code': 200, 'data': {'carts_count': carts_count}})
 
+    @login_check
     def delete(self, request, username):
         query_dict = json.loads(request.body.decode())
         sku_id = query_dict['sku_id']
@@ -105,6 +109,7 @@ class CartsView(APIView):
             carts.append(cart)
         return Response({'code': 200, 'data': carts, 'base_url': settings.PIC_URL})
 
+    @login_check
     def put(self, request, username):
         query_dict = json.loads(request.body.decode())
         try:

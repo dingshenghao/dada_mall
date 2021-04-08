@@ -7,13 +7,13 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import CreateAPIView, GenericAPIView, UpdateAPIView
 from rest_framework.response import Response
-from django.conf import settings
 from django_redis import get_redis_connection
 
 from .models import User, Address
 from .serializers import RegisterSerializer, LoginSerializer, AddressSerializer
 from .utils import token_confirm
 from celery_tasks.email.tasks import send_sms_email
+from dada_mall.utils.login_check import login_check
 
 logger = logging.getLogger('django')
 
@@ -108,6 +108,7 @@ class UserAddressView(APIView):
     post：新增地址
     """
 
+    @login_check
     def get(self, request, username):
         try:
             user = User.objects.get(username=username)
@@ -274,6 +275,7 @@ class NewPasswordView(APIView):
     post: 修改密码
     """
 
+    @login_check
     def post(self, request):
         query_dict = request.data
         email = query_dict['email']
