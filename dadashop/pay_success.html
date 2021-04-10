@@ -67,7 +67,7 @@ A ny individuals and organizations and not for commercial use, professiona websi
                     beforeSend:function(request){
                         request.setRequestHeader("authorization",token)
                     },
-                    url: baseUrl+'/v1/orders/result/'+location.search,
+                    url: baseUrl+'/orders/result/'+location.search,
                     datatype: 'json',
                     async: false,
                     success: function (response) {

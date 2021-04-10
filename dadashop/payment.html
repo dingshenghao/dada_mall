@@ -165,7 +165,7 @@ A ny individuals and organizations and not for commercial use, professiona websi
             function push_ajax(settlement_type, data) {
                 $.ajax({
                     type: 'post',
-                    url: baseUrl + '/v1/orders/' + username,
+                    url: baseUrl + '/orders/' + username + '/',
                     contentType: 'application/json',
                     beforeSend: function (request) {
                         request.setRequestHeader("authorization", token)
@@ -213,7 +213,7 @@ A ny individuals and organizations and not for commercial use, professiona websi
                                 $("#pay_now").click(function () {
                                     $.ajax({
                                         // url: "http://127.0.0.1:8000/v1/payment/jump/",
-                                        url: baseUrl + "/v1/payment/jump/",
+                                        url: baseUrl + "/payment/jump/",
                                         type: "post",
                                         contentType: "application/json",
                                         dataType: "json",

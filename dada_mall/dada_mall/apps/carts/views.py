@@ -70,7 +70,7 @@ class CartsView(APIView):
         """
         sku_id_1: count; sku_id_2: count 
         """
-        pl.sadd('is_select_%s' % username, sku.id)
+        # pl.sadd('is_select_%s' % username, sku.id)
         pl.execute()
         return Response({'code': 200, 'data': {'carts_count': carts_count}})
 
